@@ -52,3 +52,59 @@ setInterval(getClock, 1000);
 
 ////// clock
 
+const quotes:Array<any> = [ // Array<object>로 하면 객체 내부 값떄문에 에러가 뜸
+  {
+    quote: "한낱 빛 따위가 어둠의 깊이를 어찌 알랴",
+    author: "Friedrich Nietzsche"
+  },{
+    quote: "고난이  심할수록 내 가슴은 뛴다",
+    author: "Friedrich Nietzsche"
+  },{
+    quote: "네 운명을 사랑하라",
+    author: "Friedrich Nietzsche"
+  },{
+    quote: "몇 번이라도 좋다. 이 끔찍한 삶이여, 다시 한 번!",
+    author: "Friedrich Nietzsche"
+  },{
+    quote: "그대의 영혼 속에 깃들어 있는 영웅을 절대 버리지 않기를",
+    author: "Friedrich Nietzsche"
+  },{
+    quote: "아무 것도 성취하지 못 했을지라도 자신을 존경하라 거기게 상황을 바꿀 힘이 있으니",
+    author: "Friedrich Nietzsche"
+  },{
+    quote: "우리가 심연을 오래 들여다보면, 심연 또한 우리를 들여다 본다.",
+    author: "Friedrich Nietzsche"
+  },{
+    quote: "상처에 의해 정신은 고양되고, 새 힘은 솟아 오른다.",
+    author: "Friedrich Nietzsche"
+  },{
+    quote: "춤추는 별을 잉태하려면 반드시 스스로의 내면에 혼돈을 지녀야 한다.",
+    author: "Friedrich Nietzsche"
+  },{
+    quote: "작은 게 최상의 행복을 만든다.",
+    author: "Friedrich Nietzsche"
+  },
+]
+
+const quote = document.querySelector('#quote>span:first-child');
+const author = document.querySelector('#quote>span:last-child');
+
+// Math.random을 사용해 quotes 배열 안에 있는 객체를 랜덤으로 받아온다.
+const todaysQuote = quotes[Math.floor(Math.random()* quotes.length)];
+console.log(todaysQuote);
+quote.innerHTML = todaysQuote.quote;
+author.innerHTML = todaysQuote.author;
+
+////// quotes
+
+
+const imgArr:Array<string> = ['0.jpg','1.jpg','2.jpg'];
+const todaysBG = imgArr[Math.floor(Math.random()* imgArr.length)];
+const image = document.createElement('img');
+image.src = `img/${todaysBG}`;
+document.body.appendChild(image);
+
+console.log(image);
+
+////// background img
+
