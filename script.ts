@@ -4,10 +4,31 @@ const loginButton = loginForm.querySelector("button");
 const a = document.querySelector("a");
 const Hone = document.querySelector("h1");
 
-loginForm.addEventListener("submit", (e) => {
+function onLoginSubmit(e) {
   e.preventDefault();
   // console.log(e);
-  let userName:number | string = loginInput.value;
+  const userName:string = loginInput.value;
   loginForm.classList.add("hidden");
-  Hone.innerText = `${userName}님 반가워용`;
-});
+  localStorage.setItem('username' ,userName);
+  paintGreetings(userName);
+}
+
+function paintGreetings(username:string) {
+    Hone.classList.remove('hidden');
+    Hone.innerText = `${username}님 반가워용`;
+}
+
+const savedUserName = localStorage.getItem("username");
+// username이라는 키를 가지고 값을 찾음
+console.log(savedUserName);
+
+  
+  if (savedUserName === null) {
+    // savedUserName에 값이 없을 때, form을 보여주고 addEventListener를 추가
+    loginForm.classList.remove("hidden");
+    loginForm.addEventListener("submit", onLoginSubmit);
+  } else { // savedUserName에 이미 값이 있다면 이것을 출력
+    loginForm.classList.add("hidden");
+    paintGreetings(savedUserName);
+  }
+
