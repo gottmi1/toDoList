@@ -36,7 +36,7 @@ const savedUserName:string = localStorage.getItem("username");
 
 const clock = document.querySelector('#clock');
 
-function getClock() {
+function getClock():void {
   // padStart는 es2017이후 문법이기 떄문에 tsconfig에서 target을 es2017이상으로 바꿔줘야 한다.
   // padStart(nubmer, string)의 앞 매개변수는 최대 숫자 개수, 뒤 매개변수는 최대 숫자 개수가 아닐 경우 빈자리를 채워주는 문자열로 구성됨.
   // String()은 안에 들어간 값을 문자열로 받겠다는 뜻
@@ -99,7 +99,7 @@ author.innerHTML = todaysQuote.author;
 
 
 const imgArr:Array<string> = ['0.jpg','1.jpg','2.jpg'];
-const todaysBG = imgArr[Math.floor(Math.random()* imgArr.length)];
+const todaysBG:string = imgArr[Math.floor(Math.random()* imgArr.length)];
 const image = document.createElement('img');
 image.src = `img/${todaysBG}`;
 document.body.appendChild(image);
@@ -107,4 +107,29 @@ document.body.appendChild(image);
 console.log(image);
 
 ////// background img
+
+const toDoForm = document.querySelector('#todo-form');
+const toDoInput = toDoForm.querySelector('input');
+const toDoList = document.querySelector('#todo-list');
+
+function paintToDo(newTodo:string):void {
+  console.log(`I will paint ${newTodo}.`)
+  const $li = document.createElement('li');
+  const $span = document.createElement('span');
+  $span.textContent = newTodo;
+  toDoList.appendChild($li);
+  $li.append($span);
+}
+
+function handleToDoSubmit(e):void {
+  e.preventDefault();
+  const newTodo:string = toDoInput.value;
+  console.log(newTodo);
+  toDoInput.value = "";
+  paintToDo(newTodo); // 바깥 스코프에 있는 함수를 호출해서 현재 스코프 안에 있는 변수를 쓸 수 있게 만듬
+}
+
+toDoForm.addEventListener("submit" , handleToDoSubmit);
+
+///// to do list 추가 및 출력까지
 

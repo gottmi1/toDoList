@@ -90,3 +90,23 @@ image.src = `img/${todaysBG}`;
 document.body.appendChild(image);
 console.log(image);
 ////// background img
+const toDoForm = document.querySelector('#todo-form');
+const toDoInput = toDoForm.querySelector('input');
+const toDoList = document.querySelector('#todo-list');
+function paintToDo(newTodo) {
+    console.log(`I will paint ${newTodo}.`);
+    const $li = document.createElement('li');
+    const $span = document.createElement('span');
+    $span.textContent = newTodo;
+    toDoList.appendChild($li);
+    $li.append($span);
+}
+function handleToDoSubmit(e) {
+    e.preventDefault();
+    const newTodo = toDoInput.value;
+    console.log(newTodo);
+    toDoInput.value = "";
+    paintToDo(newTodo); // 바깥 스코프에 있는 함수를 호출해서 현재 스코프 안에 있는 변수를 쓸 수 있게 만듬
+}
+toDoForm.addEventListener("submit", handleToDoSubmit);
+///// to do list 추가 및 출력까지
