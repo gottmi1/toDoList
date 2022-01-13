@@ -93,13 +93,27 @@ console.log(image);
 const toDoForm = document.querySelector('#todo-form');
 const toDoInput = toDoForm.querySelector('input');
 const toDoList = document.querySelector('#todo-list');
+const toDos = [];
+function saveToDos() {
+    localStorage.setItem("todos", JSON.stringify(toDos));
+    // JSON.stringify(변수명);을 해주면 받는 문자열을 Array의 인자를 받는 것 처럼 받을 수 있다.
+}
+function deleteToDo() {
+    console.log(this.parentNode);
+    this.parentNode.remove();
+}
+/////// 만든 to do list를 삭제
 function paintToDo(newTodo) {
     console.log(`I will paint ${newTodo}.`);
     const $li = document.createElement('li');
     const $span = document.createElement('span');
     $span.textContent = newTodo;
-    toDoList.appendChild($li);
+    const $btn = document.createElement('button');
+    $btn.innerText = 'X';
+    $btn.addEventListener("click", deleteToDo);
     $li.append($span);
+    $li.append($btn);
+    toDoList.appendChild($li);
 }
 function handleToDoSubmit(e) {
     e.preventDefault();
@@ -107,6 +121,9 @@ function handleToDoSubmit(e) {
     console.log(newTodo);
     toDoInput.value = "";
     paintToDo(newTodo); // 바깥 스코프에 있는 함수를 호출해서 현재 스코프 안에 있는 변수를 쓸 수 있게 만듬
+    toDos.push(newTodo);
+    console.log(toDos);
+    saveToDos();
 }
 toDoForm.addEventListener("submit", handleToDoSubmit);
 ///// to do list 추가 및 출력까지
