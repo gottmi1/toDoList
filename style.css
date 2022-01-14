@@ -1,3 +1,106 @@
+*{
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+ul{list-style: none;}
+
 .hidden{
   display: none;
+}
+
+img{
+  position: absolute;
+  width: 100vw;
+  height: 100vh;
+  z-index: -1;
+}
+
+.login-form{
+  position: absolute;
+  top: 50vh;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+#clock{
+  position: absolute;
+  top: 5vh;
+  left: 50%;
+  color: white;
+  text-shadow: 1px 1px 1px black;
+  transform: translateX(-50%);
+  font-size: 50px;
+}
+
+
+#greeting{
+  position: absolute;
+  top: 13vh;
+  color: white;
+  text-shadow: 1px 1px 1px black;
+  left: 50%;
+  transform: translateX(-50%);
+
+}
+
+#quote{
+  position: absolute;
+  bottom: 2vh;
+  left: 50%;
+  color: white;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  transition: 500ms;
+  width: 40vw;
+}
+#quote span:last-child{
+  opacity: 0;
+  transition: 500ms;
+}
+
+#quote:hover{
+  transform: scale(1.05) translateX(-48%);
+  position: absolute;
+  bottom: 4vh;
+  left: 50%;
+  background-color: rgba(0, 0, 0, .8);
+}
+#quote:hover span:last-child{
+  opacity: 1;
+}
+
+#todo-form{
+  position: absolute;
+  top: 20vh;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+#todo-list{
+  position: absolute;
+  top: 35vh;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: rgba(255, 255, 255, 0.3);
+  width: 15vw;
+}
+#todo-list li{
+  margin: .5vh;
+  text-align: center;
+  border-bottom: 1px solid rgba(0, 0, 0, .1);
+}
+
+#todo-list button{
+  float: right;
+}
+
+#weather{
+  position: absolute;
+  top: 2vh;
+  right: 2vw;
+  color: white;
+  text-shadow: 1px 1px 1px black;
 }

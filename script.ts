@@ -15,7 +15,7 @@ function onLoginSubmit(e) {
 
 function paintGreetings(username:string) {
     Hone.classList.remove('hidden');
-    Hone.innerText = `${username}님 반가워용`;
+    Hone.innerText = `${username}님 반갑습니다.`;
 }
 
 const savedUserName:string = localStorage.getItem("username");
@@ -199,7 +199,7 @@ function onGeoOk (position) {
     const weather = document.querySelector('#weather span:first-child')
     const city = document.querySelector('#weather span:last-child')
     city.innerHTML = ` ${data.name}`;
-    weather.innerHTML = `${data.weather[0].main} / ${Math.floor(data.main.temp)}`;
+    weather.innerHTML = `현재 날씨 : ${data.weather[0].main} 체감온도 : ${Math.floor(data.main.temp)}º`;
     weatherCon.appendChild(weather);
     weatherCon.appendChild(city);
   });
