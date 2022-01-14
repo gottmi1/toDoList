@@ -124,7 +124,7 @@ function saveToDos():void { // 로컬 저장소에 toDos에 업데이트 된 값
 function deleteToDo(e):void {
   const li = e.target.parentNode;
   // li는 현재 누른 버튼의 부모요소
-  toDos = toDos.filter((todo:object) => todo.id !== parseInt(li.id));
+  toDos = toDos.filter((todo) => todo.id !== parseInt(li.id));
   // 이렇게 하면 될 것 같지만 받는 값이 string이기 떄문에 number로 바꿔줄 필요가 있다
   // filter로 현재 누른 li의 id와 같은 id값을 가진 객체를 제외하고 새 배열을 toDos로 반환
   li.remove();
@@ -185,3 +185,29 @@ if(savedToDos){
   parsedToDos.forEach(paintToDo); // forEach는 array의 각 item에 대해 순환하며 function을 실행해준다. paimTodo(newToDo)에서 newToDo에 각각의 item들을 자동으로 대입해줌
 }
 
+const myAPI:string = "ae077128449cf88203196cd19fcc1cab";
+
+function onGeoOk (position) {
+  const lat = position.coords.latitude;
+  const lng = position.coords.longitude;
+  // 현재의 위도와 경도를 받아온다.
+  const url = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lng}&appid=${myAPI}&units=metric`;
+  fetch(url)
+  .then(respnse => respnse.json())
+  .then(data => {
+    const weatherCon = document.querySelector('#weather');
+    const weather = document.querySelector('#weather span:first-child')
+    const city = document.querySelector('#weather span:last-child')
+    city.innerHTML = ` ${data.name}`;
+    weather.innerHTML = `${data.weather[0].main} / ${Math.floor(data.main.temp)}`;
+    weatherCon.appendChild(weather);
+    weatherCon.appendChild(city);
+  });
+}
+
+function onGeoErr () {
+  alert("위치를 찾을 수 없습니다.")
+}
+
+navigator.geolocation.getCurrentPosition(onGeoOk,onGeoErr)
+// getCurrentPositon의 매개변수로는 성공햇을 때의 값과 에러가 떴을때의 값을 방아온다.

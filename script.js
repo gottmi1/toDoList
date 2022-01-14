@@ -146,3 +146,26 @@ if (savedToDos) {
     // Array이기 떄문에 forEach를 사용할 수 있다.
     parsedToDos.forEach(paintToDo); // forEach는 array의 각 item에 대해 순환하며 function을 실행해준다. paimTodo(newToDo)에서 newToDo에 각각의 item들을 자동으로 대입해줌
 }
+const myAPI = "ae077128449cf88203196cd19fcc1cab";
+function onGeoOk(position) {
+    const lat = position.coords.latitude;
+    const lng = position.coords.longitude;
+    // 현재의 위도와 경도를 받아온다.
+    const url = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lng}&appid=${myAPI}&units=metric`;
+    fetch(url)
+        .then(respnse => respnse.json())
+        .then(data => {
+        const weatherCon = document.querySelector('#weather');
+        const weather = document.querySelector('#weather span:first-child');
+        const city = document.querySelector('#weather span:last-child');
+        city.innerHTML = ` ${data.name}`;
+        weather.innerHTML = `${data.weather[0].main} / ${Math.floor(data.main.temp)}`;
+        weatherCon.appendChild(weather);
+        weatherCon.appendChild(city);
+    });
+}
+function onGeoErr() {
+    alert("위치를 찾을 수 없습니다.");
+}
+navigator.geolocation.getCurrentPosition(onGeoOk, onGeoErr);
+// getCurrentPositon의 매개변수로는 성공햇을 때의 값과 에러가 떴을때의 값을 방아온다.
