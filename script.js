@@ -88,29 +88,37 @@ const todaysBG = imgArr[Math.floor(Math.random() * imgArr.length)];
 const image = document.createElement('img');
 image.src = `img/${todaysBG}`;
 document.body.appendChild(image);
-console.log(image);
 ////// background img
 const toDoForm = document.querySelector('#todo-form');
 const toDoInput = toDoForm.querySelector('input');
 const toDoList = document.querySelector('#todo-list');
-const toDos = [];
+let toDos = [];
 function saveToDos() {
     localStorage.setItem("todos", JSON.stringify(toDos));
-    // JSON.stringify(변수명);을 해주면 받는 문자열을 Array의 인자를 받는 것 처럼 받을 수 있다.
+    // todos의 value를 stringify로 "문자열화 시킨 후" todos:Array의 인자로 넣는다
+    // JSON.stringify(변수명);을 해주면 받는 문자열을 Array의 인자를 받는 것 처럼 받을 수 있다. 반대로 스트링을 Array로 바꿔주는 건 JSON.parse();
 }
-function deleteToDo() {
-    console.log(this.parentNode);
-    this.parentNode.remove();
+function deleteToDo(e) {
+    const li = e.target.parentNode;
+    // li는 현재 누른 버튼의 부모요소
+    toDos = toDos.filter((todo) => todo.id !== parseInt(li.id));
+    // 이렇게 하면 될 것 같지만 받는 값이 string이기 떄문에 number로 바꿔줄 필요가 있다
+    // filter로 현재 누른 li의 id와 같은 id값을 가진 객체를 제외하고 새 배열을 toDos로 반환
+    li.remove();
+    saveToDos(); // 위에서 받은 새 배열을 업데이트 해준다
 }
 /////// 만든 to do list를 삭제
 function paintToDo(newTodo) {
-    console.log(`I will paint ${newTodo}.`);
+    console.log(`I will paint ${newTodo.id}.`);
     const $li = document.createElement('li');
+    $li.id = newTodo.id;
+    // DOM에 li를 만들면서 id까지 추가해준다 이 함수의 매개변수의 id를 추가해주는데, 해당 함수는 매개변수로 newToDoObject를 받고있기 때문에 결과적으로 newToDoObject의 id인 Date.now()를 가져와서 id로 받는 셈
     const $span = document.createElement('span');
-    $span.textContent = newTodo;
+    $span.innerText = newTodo.text;
     const $btn = document.createElement('button');
     $btn.innerText = 'X';
     $btn.addEventListener("click", deleteToDo);
+    // 버튼을 클릭하면 deleteToDo가 실행되게
     $li.append($span);
     $li.append($btn);
     toDoList.appendChild($li);
@@ -118,12 +126,23 @@ function paintToDo(newTodo) {
 function handleToDoSubmit(e) {
     e.preventDefault();
     const newTodo = toDoInput.value;
-    console.log(newTodo);
     toDoInput.value = "";
-    paintToDo(newTodo); // 바깥 스코프에 있는 함수를 호출해서 현재 스코프 안에 있는 변수를 쓸 수 있게 만듬
-    toDos.push(newTodo);
+    const newToDoObject = {
+        text: newTodo,
+        id: Date.now(),
+    };
+    toDos.push(newToDoObject);
+    paintToDo(newToDoObject); // 바깥 스코프에 있는 함수를 호출해서 현재 스코프 안에 있는 변수를 쓸 수 있게 만들 수도 있음
     console.log(toDos);
     saveToDos();
 }
 toDoForm.addEventListener("submit", handleToDoSubmit);
 ///// to do list 추가 및 출력까지
+const savedToDos = localStorage.getItem("todos");
+if (savedToDos) {
+    const parsedToDos = JSON.parse(savedToDos);
+    // 위에서 stringify로 받아온 ["a","b"]형식의 문자열 배열을 [a,b] 형식의 키(인덱스)와 프로퍼티(값)가 있는 배열로 받아온다. 대부분의 경우 Array의 item들을 가지고 무엇을 하기 떄문에 매우 중요한 메서드.
+    toDos = parsedToDos;
+    // Array이기 떄문에 forEach를 사용할 수 있다.
+    parsedToDos.forEach(paintToDo); // forEach는 array의 각 item에 대해 순환하며 function을 실행해준다. paimTodo(newToDo)에서 newToDo에 각각의 item들을 자동으로 대입해줌
+}
